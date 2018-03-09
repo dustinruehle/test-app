@@ -1,3 +1,5 @@
 .idea
 lattice-app
 *.coverprofile
+
+**/params.ymlgit remote
