@@ -2,4 +2,4 @@
 lattice-app
 *.coverprofile
 
-**/params.ymlgit remote
+**/params.yml
