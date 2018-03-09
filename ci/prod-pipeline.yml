@@ -1,0 +1,101 @@
+---
+
+resources:
+- name: prod-version-to-deploy-resource
+  type: semver
+  source:
+    driver: git
+    uri: ((prod-version-to-deploy-resource-git-uri))
+    branch: master
+    file: alarmd/prod-version-to-deploy/version
+    private_key: ((prod-version-deployment-key))
+
+- name: pipeline-resource
+  type: git
+  source:
+    uri: ((pipeline-resource-git-uri))
+    branch: master
+    private_key: ((my-private-key))
+
+
+#  - name: pcf-prod-resource
+#  type: cf
+#  source:
+#    api: https://api.sys.pcfdev.one.west.com
+#    username: ((cf-user))
+#    password: ((cf-password))
+#    organization: UtilitySubTrac
+#    space: Dev
+#    skip_cert_check: true
+
+
+jobs:
+- name: job-start-deploy
+  plan:
+  - get: pipeline-resource
+    trigger: false
+  - get: version
+    resource: prod-version-to-deploy-resource
+  - task: validate-version-updated
+    file: pipeline-resource/ci/tasks/validate-version-updated.yml
+    input_mapping: {version: version, pipeline-resource: pipeline-resource}
+    params:
+      CF_API : ((cf-api))
+      CF_USER : ((cf-user))
+      CF_PASSWORD : ((cf-password))
+      CF_ORG: ((cf-org))
+      CF_SPACE: ((cf-space))
+
+- name: job-prod-deploy
+  plan:
+  - get: llama
+  - get: pipeline-resource
+  - get: version
+    resource: prod-version-to-deploy-resource
+  - task: deploy-version
+    file: pipeline-resource/ci/tasks/deploy-version.yml
+    input_mapping: {version: version, pipeline-resource: pipeline-resource}
+
+
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#  - task: cf-deploy
+#    file: pipeline-resource/tasks/cf-deploy.yml
+#    input_mapping: {pipeline: pipeline-resource}
+#    params:
+#      NEXUS_REPO: tfcc-internal-snapshots
+#      MAVEN_GROUP_ID: myApplication's GroupID
+#      MAVEN_ARTIFACT_ID: myApplication's artifactID
+#      JAR_NAME: something.jar
+#  - put: pcf-dev-resource
+#    params:
+#      manifest: deploy-output/manifest.yml
+#      path: deploy-output/something.jar
+#      environment_variables:
+#        SPRING_PROFILES_ACTIVE: dev
+#- name: job-test-deploy
+#  plan:
+#  - get: pipeline-resource
+#    trigger: false
+#    passed: [job-dev-deploy]
+#  - task: cf-deploy
+#    file: pipeline-resource/tasks/cf-deploy.yml
+#    input_mapping: {pipeline: pipeline-resource}
+#    params:
+#      NEXUS_REPO: tfcc-internal-snapshots
+#      MAVEN_GROUP_ID: myApplication's GroupID
+#      MAVEN_ARTIFACT_ID: myApplication's artifactID
+#      JAR_NAME: something.jar
+#  - put: pcf-test-resource
+#    params:
+#      manifest: deploy-output/manifest.yml
+#      path: deploy-output/something.jar
+#      environment_variables:
+#        SPRING_PROFILES_ACTIVE: test
