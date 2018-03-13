@@ -1,0 +1,7 @@
+origin	git@github.com:dustinruehle/test-app.git (fetch)
+origin	git@github.com:dustinruehle/test-app.git (push)
+upstream	git@github.com:cloudfoundry-samples/test-app.git (fetch)
+upstream	git@github.com:cloudfoundry-samples/test-app.git (push)
+
+git remote add origin dustinruehle@localhost:local/test-app.git
+git push -u origin master

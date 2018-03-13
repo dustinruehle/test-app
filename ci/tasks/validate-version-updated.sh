@@ -1,7 +1,8 @@
 #!/bin/bash
 
 set -e
-env
+
+echo "Hello world"
 
 #cf api $CF_API --skip-ssl-validation
 #
