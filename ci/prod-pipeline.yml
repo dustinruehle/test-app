@@ -1,6 +1,16 @@
 ---
 
 resources:
+- name: start-stage-deploy-resource
+  type: semver
+  source:
+    initial_version: 0
+    driver: git
+    uri: ((prod-version-to-deploy-resource-git-uri))
+    branch: master
+    file: alarmd/state/stage-deploy-count
+    private_key: ((prod-version-deployment-key))
+
 - name: prod-version-to-deploy-resource
   type: semver
   source:
@@ -30,21 +40,29 @@ resources:
 
 
 jobs:
-- name: job-start-deploy
+- name: start-deploy-to-stage
   plan:
-  - get: pipeline-resource
-    trigger: false
-  - get: version
-    resource: prod-version-to-deploy-resource
-  - task: validate-version-updated
-    file: pipeline-resource/ci/tasks/validate-version-updated.yml
-    input_mapping: {version: version, pipeline-resource: pipeline-resource}
+  - put: manualtrigger
     params:
-      CF_API : ((cf-api))
-      CF_USER : ((cf-user))
-      CF_PASSWORD : ((cf-password))
-      CF_ORG: ((cf-org))
-      CF_SPACE: ((cf-space))
+      bump: major
+
+
+
+#- name: job-start-deploy
+#  plan:
+#  - get: pipeline-resource
+#    trigger: false
+#  - get: version
+#    resource: prod-version-to-deploy-resource
+#  - task: validate-version-updated
+#    file: pipeline-resource/ci/tasks/validate-version-updated.yml
+#    input_mapping: {version: version, pipeline-resource: pipeline-resource}
+#    params:
+#      CF_API : ((cf-api))
+#      CF_USER : ((cf-user))
+#      CF_PASSWORD : ((cf-password))
+#      CF_ORG: ((cf-org))
+#      CF_SPACE: ((cf-space))
 
 #- name: job-prod-deploy
 #  plan:
