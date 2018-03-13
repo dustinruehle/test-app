@@ -46,15 +46,14 @@ jobs:
       CF_ORG: ((cf-org))
       CF_SPACE: ((cf-space))
 
-- name: job-prod-deploy
-  plan:
-  - get: llama
-  - get: pipeline-resource
-  - get: version
-    resource: prod-version-to-deploy-resource
-  - task: deploy-version
-    file: pipeline-resource/ci/tasks/deploy-version.yml
-    input_mapping: {version: version, pipeline-resource: pipeline-resource}
+#- name: job-prod-deploy
+#  plan:
+#  - get: pipeline-resource
+#  - get: version
+#    resource: prod-version-to-deploy-resource
+#  - task: deploy-version
+#    file: pipeline-resource/ci/tasks/deploy-version.yml
+#    input_mapping: {version: version, pipeline-resource: pipeline-resource}
 
 
 #
