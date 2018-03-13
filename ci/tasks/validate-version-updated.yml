@@ -9,8 +9,6 @@ image_resource:
 inputs:
   - name: pipeline-resource
   - name: version
-outputs:
-  - name: llama
 
 run:
   path: pipeline-resource/ci/tasks/validate-version-updated.sh

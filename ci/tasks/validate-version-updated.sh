@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# input folders:
-# version : contains a file called number with the current version
-# source-code : contains the source code
-
-# output folders:
-# build: contains the built jar
-
 set -e
 
 cf api $CF_API --skip-ssl-validation
