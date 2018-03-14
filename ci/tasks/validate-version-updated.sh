@@ -19,7 +19,7 @@ then
   exit 1
 
 else
-  echo "************************************************"
-  echo "** Version $VERSION is not currently deployed!**"
-  echo "************************************************"
+  echo ""
+  echo "Version $VERSION is not currently deployed!"
+  echo "Continuing..."
 fi
