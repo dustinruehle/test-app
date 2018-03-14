@@ -58,45 +58,16 @@ jobs:
   - task: do-validate-version-updated
     file: pipeline-source/ci/tasks/validate-version-updated.yml
     input_mapping: {version: prod-version-to-deploy, pipeline-source: pipeline-source}
+    params:
+      CF_API : ((cf-api))
+      CF_USER : ((cf-user))
+      CF_PASSWORD : ((cf-password))
+      CF_ORG: ((cf-org))
+      CF_SPACE: ((cf-space))
 
 
 
 
-
-#    config:
-#      platform: linux
-#      image_resource:
-#        type: docker-image
-#        source:
-#          repository: pivotalservices/docker-concourse-cf-tools
-#          tag: "latest"
-#      run:
-#        path: sh
-#        args:
-#        - -exc
-#        - |
-#          echo "Hello finally!"
-#          ls -al
-#          sleep 10
-
-
-
-
-
-#  - get: version
-#    resource: prod-version-to-deploy-resource
-#    trigger: false
-#  - get: pipeline-resource
-#    trigger: false
-#  - task: validate-version-updated
-#    file: pipeline-resource/ci/tasks/validate-version-updated.yml
-#    input_mapping: {version: version, pipeline-resource: pipeline-resource}
-#    params:
-#      CF_API : ((cf-api))
-#      CF_USER : ((cf-user))
-#      CF_PASSWORD : ((cf-password))
-#      CF_ORG: ((cf-org))
-#      CF_SPACE: ((cf-space))
 
 #- name: job-prod-deploy
 #  plan:
