@@ -57,7 +57,7 @@ jobs:
     passed: [start-deploy-to-stage]
   - task: do-validate-version-updated
     file: pipeline-source/ci/tasks/validate-version-updated.yml
-    input_mapping: {version: version, pipeline-source: pipeline-source}
+    input_mapping: {version: prod-version-to-deploy, pipeline-source: pipeline-source}
 
 
 
