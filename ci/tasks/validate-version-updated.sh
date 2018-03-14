@@ -6,8 +6,8 @@ cf api $CF_API --skip-ssl-validation
 
 cf login -u $CF_USER -p $CF_PASSWORD -o "$CF_ORG" -s "$CF_SPACE"
 
-set -x
-#set +e
+#set -x
+set +e
 
 VERSION=$(cat version/version)
 
