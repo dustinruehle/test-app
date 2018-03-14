@@ -19,5 +19,7 @@ then
   exit 1
 
 else
-  echo "alarmd not found"
+  echo "************************************************"
+  echo "** Version $VERSION is not currently deployed!**"
+  echo "************************************************"
 fi
