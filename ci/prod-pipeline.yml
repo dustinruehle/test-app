@@ -55,21 +55,29 @@ jobs:
   - get: sentinel
     trigger: true
     passed: [start-deploy-to-stage]
-  - task: do-your-task-here
-    config:
-      platform: linux
-      image_resource:
-        type: docker-image
-        source:
-          repository: ubuntu
-      run:
-        path: sh
-        args:
-        - -exc
-        - |
-          echo "Hello finally!"
-          ls -al
-          sleep 10
+  - task: do-validate-version-updated
+    file: pipeline-source/ci/tasks/validate-version-updated.yml
+    input_mapping: {version: version, pipeline-source: pipeline-source}
+
+
+
+
+
+#    config:
+#      platform: linux
+#      image_resource:
+#        type: docker-image
+#        source:
+#          repository: pivotalservices/docker-concourse-cf-tools
+#          tag: "latest"
+#      run:
+#        path: sh
+#        args:
+#        - -exc
+#        - |
+#          echo "Hello finally!"
+#          ls -al
+#          sleep 10
 
 
 
