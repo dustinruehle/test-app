@@ -1,5 +1,5 @@
 #!/bin/bash
 
-echo "Hello finally!"
+echo "Hello again!"
 ls -al
 sleep 10
