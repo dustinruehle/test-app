@@ -11,4 +11,4 @@ inputs:
   - name: version
 
 run:
-  path: pipeline-source/ci/tasks/validate-version-updated.sh
+  path: ci/tasks/validate-version-updated.sh
